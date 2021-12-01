@@ -117,5 +117,24 @@ int main(int argc, const char * argv[]) {
         }
         std::cout << std::endl << std::endl;
     }
+
+    // thresholds
+    std::map<std::string, unsigned int> thresholds;
+    for(auto const& workspace : workspacesData) {
+        for(auto const& account : workspace.second) {
+            for(auto const& step : account.second) {
+                if (step.getType() == StepType::THRESHOLD) {
+                    ++thresholds[workspace.first];
+                }
+            }
+        }
+    }
+    
+    std::vector<int> ts;
+    std::cout << "Thresholds per workspace" << std::endl;
+    for(auto const& threshold : thresholds) {
+        std::cout << threshold.first << ": " << threshold.second << std::endl;
+        ts.emplace_back(threshold.second);
+    }
     
 }
