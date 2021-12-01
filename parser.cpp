@@ -40,10 +40,23 @@ class Step {
     std::string _data;
     
 public:
-    Step(StepType stepType, std::string data) : _stepType(stepType), _data(data) {};
+    Step(StepType stepType, std::string data) : _stepType(stepType), _data(data) {
+        // clean data
+        for(auto i = 1; i <= 4; ++i) {
+            std::string toErase = "\"," + std::to_string(i) + ",f";
+            size_t pos = _data.find(toErase);
+            if (pos != std::string::npos) {
+                _data.erase(pos, toErase.length());
+            }
+        }
+    };
     
     std::string getData() const {
         return _data;
+    }
+    
+    StepType getType() const {
+        return _stepType;
     }
 };
 
@@ -117,7 +130,7 @@ int main(int argc, const char * argv[]) {
         }
         std::cout << std::endl << std::endl;
     }
-
+    
     // thresholds
     std::map<std::string, unsigned int> thresholds;
     for(auto const& workspace : workspacesData) {
@@ -125,9 +138,17 @@ int main(int argc, const char * argv[]) {
             for(auto const& step : account.second) {
                 if (step.getType() == StepType::THRESHOLD) {
                     ++thresholds[workspace.first];
+                    
+                    std::string d = step.getData();
+                    
+                    // replace with relevant currency:
+                    if (d.find("ETH") != std::string::npos) {
+                        std::cout << workspace.first << ": " << d << std::endl;
+                    }
+                    
                 }
             }
         }
+        std::cout << std::endl;
     }
-    
 }
