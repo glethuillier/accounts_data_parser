@@ -130,11 +130,4 @@ int main(int argc, const char * argv[]) {
         }
     }
     
-    std::vector<int> ts;
-    std::cout << "Thresholds per workspace" << std::endl;
-    for(auto const& threshold : thresholds) {
-        std::cout << threshold.first << ": " << threshold.second << std::endl;
-        ts.emplace_back(threshold.second);
-    }
-    
 }
